@@ -59,6 +59,15 @@ def main() -> int:
     if "\n" in line or "\r" in line:
         print("roast must be a single line", file=sys.stderr)
         return 1
+    # One sentence only: it must end with terminal punctuation and hold
+    # no second sentence inside (a period followed by a space would mean
+    # the judge is reading two sentences, not one roast).
+    if line[-1] not in ".!?":
+        print("roast must end with terminal punctuation", file=sys.stderr)
+        return 1
+    if ". " in line or "! " in line or "? " in line:
+        print("roast must be a single sentence", file=sys.stderr)
+        return 1
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="\n") as f:
         f.write(line)
